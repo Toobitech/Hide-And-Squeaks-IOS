@@ -13,8 +13,9 @@ import '../components/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-
 import '../components/custom_snakbar.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 
 class AuthController extends GetxController {
 
@@ -27,6 +28,7 @@ class AuthController extends GetxController {
     super.onInit();
     user.bindStream(auth.authStateChanges());
   }
+  
 
   signInWithGoogle() async {
     try {
@@ -266,7 +268,8 @@ class AuthController extends GetxController {
           print("OTP request successful");
           receivedOtp = responseData['data']['otp'].toString();
           print("Received OTP: $receivedOtp");
-
+          sendEmail(email,receivedOtp);
+          
           Get.off(() => OtpScreen(receivedOtp: receivedOtp, userEmail: email));
         }
       } else {
@@ -348,4 +351,45 @@ class AuthController extends GetxController {
       Get.back();
     }
   }
+  sendEmail(String email,String mailOtp//For showing snackbar
+    ) async {
+  String username = 'toobitechllc@gmail.com'; //Your Email
+  String password =
+      'iajultdbnoggrhfe'; // 16 Digits App Password Generated From Google Account
+
+  final smtpServer = gmail(username, password);
+  // Use the SmtpServer class to configure an SMTP server:
+  // final smtpServer = SmtpServer('smtp.domain.com');
+  // See the named arguments of SmtpServer for further configuration
+  // options.
+
+  // Create our message.
+  final message = Message()
+        ..from = Address(username, 'Hide And Squeaks')
+        ..recipients.add(email)
+        // ..ccRecipients.addAll(['abc@gmail.com', 'xyz@gmail.com']) // For Adding Multiple Recipients
+        // ..bccRecipients.add(Address('a@gmail.com')) For Binding Carbon Copy of Sent Email
+        ..subject = 'Hide And Squeaks OTP'
+        ..text = 'Hello, your OTP for Password reset is ${mailOtp}'
+      // ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>"; // For Adding Html in email
+      // ..attachments = [
+      //   FileAttachment(File('image.png'))  //For Adding Attachments
+      //     ..location = Location.inline
+      //     ..cid = '<myimg@3.141>'
+      // ]
+      ;
+
+  try {
+    final sendReport = await send(message, smtpServer);
+    print('Message sent: ' + sendReport.toString());
+ 
+  } on MailerException catch (e) {
+    print('Message not sent.');
+    print(e.message);
+    for (var p in e.problems) {
+      print('Problem: ${p.code}: ${p.msg}');
+    }
+  }
+}
+
 }

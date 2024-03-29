@@ -118,7 +118,6 @@ class ProfileController extends GetxController {
       if (response.statusCode == 200) {
         appStorage.write(name, responseData['data']["name"]);
         // appStorage.write("name", responseData['data']["name"]);
-
         // appStorage.write(profile, responseData['data']["profile"]);
         appStorage.write(id, responseData['data']["id"]);
         print(appStorage.read("name"));
