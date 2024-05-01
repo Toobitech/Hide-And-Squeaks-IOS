@@ -87,10 +87,10 @@ class _AudioPlayScreenState extends State<AudioPlayScreen> {
       });
     });
     pathToAudio = (await getTemporaryDirectory()).path +
-        '/recording_${DateTime.now().millisecondsSinceEpoch}.wav';
+        '/recording_${DateTime.now().millisecondsSinceEpoch}.aac';
     await _recordingSession.startRecorder(
       toFile: pathToAudio,
-      codec: Codec.pcm16WAV,
+      codec: Codec.aacADTS,
     );
     startTimer();
   }

@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'dart:math';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:squeak/App_URL/apiurl.dart';
 import 'package:squeak/Local%20Storage/global_variable.dart';
 import 'package:squeak/global/alertbox.dart';
@@ -83,12 +88,121 @@ class AuthController extends GetxController {
       print(e.toString());
     }
   }
+  String generateNonce([int length = 32]) {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+  signInWithApple() async {
+    try {
+      String clientID = 'com.toobitech.squeak-service';
+
+      /// Now you have to put the redirectURL which you received from Glitch Server
+      /// make sure you only copy the part till "https://<GLITCH PROVIDED UNIQUE NAME>.glitch.me/"
+      /// and append the following part to it "callbacks/sign_in_with_apple"
+      ///
+      /// It will look something like this
+      /// https://<GLITCH PROVIDED UNIQUE NAME>.glitch.me/callbacks/sign_in_with_apple
+      String redirectURL =
+          'https://far-verbena-jumpsuit.glitch.me/callbacks/sign_in_with_apple';
+
+      /// Generates a Random String from 1-9 and A-Z characters.
+      final rawNonce = generateNonce();
+
+      /// We are converting that rawNonce into SHA256 for security purposes
+      /// In our login.
+      final nonce = sha256ofString(rawNonce);
+
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        /// Scopes are the values that you are requiring from
+        /// Apple Server.
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: Platform.isIOS ? nonce : null,
+
+        /// We are providing Web Authentication for Android Login,
+        /// Android uses web browser-based login for Apple.
+        webAuthenticationOptions: Platform.isIOS
+            ? null
+            : WebAuthenticationOptions(
+                clientId: clientID,
+                redirectUri: Uri.parse(redirectURL),
+              ),
+      );
+
+      final AuthCredential appleAuthCredential =
+          OAuthProvider('apple.com').credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: Platform.isIOS ? rawNonce : null,
+        accessToken: Platform.isIOS ? null : appleCredential.authorizationCode,
+      );
+
+      /// Once you are successful in generating Apple Credentials,
+      /// We pass them into the Firebase function to finally sign in.
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(appleAuthCredential);
+
+      var currentUser = FirebaseAuth.instance.currentUser;
+      String userEmail = currentUser?.email ?? '';
+      String userDisplayName = currentUser?.displayName ?? 'Apple User';
+
+      List<String> nameParts = userDisplayName.split(' ');
+      String userFirstName = nameParts[0];
+      String userLastName = nameParts.length > 1 ? nameParts[1] : '';
+      print(userEmail);
+      print(userFirstName);
+      print(userLastName);
+
+//Split the Email
+      String extractNameFromEmail(String email) {
+        RegExp regex = RegExp(r'(.+?)(?=\d*@)');
+        Match? match = regex.firstMatch(email)
+;
+        if (match != null) {
+          return match.group(1)!;
+        }
+        return ''; // Return an empty string if no match is found
+      }
+
+      String randomPassword = "toobitechsqueaks";
+      print(randomPassword);
+
+      // Check if the user is new
+      bool isNewUser = userCredential.additionalUserInfo!.isNewUser;
+
+      if (isNewUser) {
+        String name = extractNameFromEmail(userEmail);
+        print('Get name form Apple Account');
+        print(name);
+        await registerUser(userFirstName, userLastName,userEmail, randomPassword);
+      } else {
+        await signInUser(userEmail, randomPassword);
+      }
+    } catch (e) {
+      signOutApple();
+      print(e.toString());
+    }
+  }
+  signOutApple() async {
+    await FirebaseAuth.instance.signOut();
+  }
 
   GoogleSignOut() {
     googleSignIn.signOut();
     auth.signOut();
     print("Google Log Out");
   }
+  
 
   facebookSignOut() {
     FacebookAuth.instance.logOut();

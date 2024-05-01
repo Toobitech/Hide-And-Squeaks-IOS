@@ -9,6 +9,7 @@ import 'package:squeak/models/comment_model.dart';
 import 'package:squeak/models/video_model.dart';
 import 'package:squeak/view/socialfeed.dart';
 import 'package:squeak/view/video_player.dart';
+import 'package:video_compressor/video_compressor.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import '../App_URL/apiurl.dart';
 import '../Local Storage/global_variable.dart';
@@ -29,8 +30,11 @@ class VideoController extends GetxController {
     if (pickedFile != null) {
       videofile.value = File(pickedFile.path);
       generateThumbnail();
+      await compressVideo(videofile.value!); 
+      
     }
   }
+  
 
   generateThumbnail() async {
     if (videofile.value != null) {
@@ -43,6 +47,20 @@ class VideoController extends GetxController {
       thumbnailFile.value = File(thumbnailPath!);
     }
   }
+  compressVideo(File videoFile) async {
+  final thumbnailPath = (await getTemporaryDirectory()).path;
+  final compressedVideoPath = '$thumbnailPath/compressed.mp4';
+  final thumbnailInfo = await VideoCompressor.compressVideo(
+    videofile as String,
+    quality: VideoQuality.LowResQuality,
+    deleteOrigin: false,
+  );
+
+  if (thumbnailInfo != null) {
+    videofile.value = File(compressedVideoPath); // Update videofile with compressed video
+    // Generate thumbnail for compressed video
+  }
+}
 
   RxBool uploading = false.obs;
 

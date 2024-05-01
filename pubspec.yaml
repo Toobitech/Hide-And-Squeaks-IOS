@@ -68,6 +68,9 @@ dependencies:
   flutter_blue_plus: ^1.31.15
   connectivity_plus: ^5.0.2
   mailer: ^6.1.0
+  sign_in_with_apple: ^6.1.0
+  crypto: ^3.0.3
+  video_compressor: ^0.0.5
 
  
 

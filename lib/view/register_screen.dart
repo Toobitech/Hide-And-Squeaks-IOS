@@ -154,7 +154,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(
                           width: Get.width * 0.045,
                         ),
-                        CustomAuth(assetpath: AppAssets.apple, onTap: () {}),
+                        CustomAuth(assetpath: AppAssets.apple, onTap: () {
+                          controller.signInWithApple();
+                        }),
                         SizedBox(
                           width: Get.width * 0.05,
                         ),
