@@ -213,7 +213,7 @@ class AuthController extends GetxController {
   signInWithFacebook() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();
-      showDialogue();
+     
 
       if (result.status == LoginStatus.success) {
         final AuthCredential credential =
@@ -264,9 +264,10 @@ class AuthController extends GetxController {
   }
 
   signInUser(String email, String password) async {
-    showDialogue();
+    
     print(email);
     print(password);
+    showDialogue();
 
     try {
       final response = await http.post(

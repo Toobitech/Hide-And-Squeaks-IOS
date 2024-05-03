@@ -4,6 +4,16 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>FacebookAppID</key>
+    <string>1446795982715680</string>
+    
+    <!-- Facebook Display Name (Your App Name) -->
+    <key>FacebookDisplayName</key>
+    <string>Hide And Squeaks ToobitechLLC</string>
+    
+    <!-- Optional: Facebook Client Token (if applicable) -->
+    <key>FacebookClientToken</key>
+    <string>85b269eab7dbf577fd35292556fcd3bb</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

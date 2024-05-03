@@ -30,7 +30,7 @@ class VideoController extends GetxController {
     if (pickedFile != null) {
       videofile.value = File(pickedFile.path);
       generateThumbnail();
-      await compressVideo(videofile.value!); 
+      // await compressVideo(videofile.value!); 
       
     }
   }
@@ -47,20 +47,20 @@ class VideoController extends GetxController {
       thumbnailFile.value = File(thumbnailPath!);
     }
   }
-  compressVideo(File videoFile) async {
-  final thumbnailPath = (await getTemporaryDirectory()).path;
-  final compressedVideoPath = '$thumbnailPath/compressed.mp4';
-  final thumbnailInfo = await VideoCompressor.compressVideo(
-    videofile as String,
-    quality: VideoQuality.LowResQuality,
-    deleteOrigin: false,
-  );
+//   compressVideo(File videoFile) async {
+//   final thumbnailPath = (await getTemporaryDirectory()).path;
+//   final compressedVideoPath = '$thumbnailPath/compressed.mp4';
+//   final thumbnailInfo = await VideoCompressor.compressVideo(
+//     videofile as String,
+//     quality: VideoQuality.LowResQuality,
+//     deleteOrigin: false,
+//   );
 
-  if (thumbnailInfo != null) {
-    videofile.value = File(compressedVideoPath); // Update videofile with compressed video
-    // Generate thumbnail for compressed video
-  }
-}
+//   if (thumbnailInfo != null) {
+//     videofile.value = File(compressedVideoPath); // Update videofile with compressed video
+//     // Generate thumbnail for compressed video
+//   }
+// }
 
   RxBool uploading = false.obs;
 
