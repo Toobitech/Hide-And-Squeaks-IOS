@@ -257,6 +257,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     onPressed: () async {
                       await controller.GoogleSignOut();
                       await controller.facebookSignOut();
+                      await controller.signOutApple();
                       appStorage.erase();
                       Get.offAll(LoginScreen());
                     },

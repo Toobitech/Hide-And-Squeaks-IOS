@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:squeak/components/app_assets.dart';
 import 'package:squeak/components/custom_appbar.dart';
 import 'package:squeak/components/custom_menu_btn.dart';
+import 'package:squeak/view/FinalAudio.dart';
 import 'package:squeak/view/profile_screen.dart';
 import 'package:squeak/view/setting_screen.dart';
 import 'package:squeak/view/socialfeed.dart';
@@ -52,7 +53,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       children: [
                         GestureDetector(
                             onTap: () {
-                              Get.to(const AudioPlayScreen());
+                              Get.to(AudioUi());
                             },
                             child: CustomMenuBtn(
                                 library: "Sound\nLibrary",

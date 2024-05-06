@@ -1,4 +1,6 @@
 PODS:
+  - another_audio_recorder (0.5.4):
+    - Flutter
   - app_settings (5.1.1):
     - Flutter
   - AppAuth (1.7.5):
@@ -178,6 +180,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - another_audio_recorder (from `.symlinks/plugins/another_audio_recorder/ios`)
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
@@ -232,6 +235,8 @@ SPEC REPOS:
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  another_audio_recorder:
+    :path: ".symlinks/plugins/another_audio_recorder/ios"
   app_settings:
     :path: ".symlinks/plugins/app_settings/ios"
   audio_session:
@@ -286,6 +291,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
+  another_audio_recorder: dee1fef684a64f55beda4b16b847d264455b5de9
   app_settings: 017320c6a680cdc94c799949d95b84cb69389ebc
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345

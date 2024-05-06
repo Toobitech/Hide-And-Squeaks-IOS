@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:squeak/components/app_assets.dart';
+import 'package:squeak/view/FinalAudio.dart';
 import 'package:squeak/view/menu_screen.dart';
 import 'package:squeak/view/audio_play_screen.dart';
 import '../components/colors.dart';
@@ -92,7 +93,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     ),
                   ),
                   child: Align(
-                      alignment: Alignment.topCenter, child: AudioPlayScreen()),
+                      alignment: Alignment.topCenter, child: 
+                      // AudioPlayScreen()
+                      AudioUi()
+                      ),
                 ),
               ),
             ],

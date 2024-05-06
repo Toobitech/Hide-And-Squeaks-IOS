@@ -100,6 +100,7 @@ class VideoController extends GetxController {
       if (response.statusCode == 200) {
         showInSnackBar("${responseData["message"]}",
             color: AppColors.greencolor);
+            Get.to(SocialScreen());
 
         print(response.statusCode);
         print(responseData);
@@ -118,11 +119,12 @@ class VideoController extends GetxController {
       } else {
         print("Response: ${responseData["message"]}");
         if (responseData['success'] == false) {
-          Get.back();
+         
 
           print("Response: ${responseData["message"]}");
           showInSnackBar("${responseData["message"]}",
               color: AppColors.errorcolor);
+               Get.back();
         }
       }
     } catch (error) {
