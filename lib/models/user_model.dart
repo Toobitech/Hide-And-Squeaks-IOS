@@ -18,7 +18,7 @@ class userModel{
     factory userModel.fromJson(Map<String, dynamic> json) {
     return userModel(
       id:json["id"],
-      petName: json['pet_name'] ,
+      petName: json['pet_name']??'Pet Name',
       petBreed: json['pet_breed'],
       profile: json['profile'],
       balanace: json["balance"]

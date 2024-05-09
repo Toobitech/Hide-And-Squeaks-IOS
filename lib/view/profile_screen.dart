@@ -139,13 +139,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(32),
                         color: AppColors.containercolor),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        "Pete",
+                        controller.userDataList.value.petName.toString(),
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w900,
-                            fontSize: 40),
+                            fontSize: 35),
                       ),
                     ),
                   ),

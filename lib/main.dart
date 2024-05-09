@@ -4,11 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:squeak/view/FinalAudio.dart';
-import 'package:squeak/view/audioUI.dart';
-import 'package:squeak/view/audio_play_screen.dart';
-import 'package:squeak/view/newAudioTest.dart';
-import 'package:squeak/view/testing.dart';
 import 'components/custom_snakbar.dart';
 import 'view/splashScreen.dart';
 
