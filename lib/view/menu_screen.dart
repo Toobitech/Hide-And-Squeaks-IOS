@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:squeak/Local%20Storage/global_variable.dart';
 import 'package:squeak/components/app_assets.dart';
 import 'package:squeak/components/custom_appbar.dart';
 import 'package:squeak/components/custom_menu_btn.dart';
+import 'package:squeak/controller/auth_controller.dart';
 import 'package:squeak/view/FinalAudio.dart';
+import 'package:squeak/view/NewPrivacy.dart';
+import 'package:squeak/view/login_screen.dart';
 import 'package:squeak/view/profile_screen.dart';
 import 'package:squeak/view/setting_screen.dart';
 import 'package:squeak/view/socialfeed.dart';
@@ -20,6 +24,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  AuthController controller = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,12 +71,13 @@ class _MenuScreenState extends State<MenuScreen> {
                                 library: "Video\nUpload",
                                 settingimage: AppAssets.settings2)),
                                 GestureDetector(
-                        onTap: () {
-                          Get.to(const SettingScreen());
-                        },
-                        child: CustomMenuBtn(
-                            library: "Settings",
-                            settingimage: AppAssets.settings7)),
+                            onTap: () {
+                              Get.to(const ProfileScreen());
+                            },
+                            child: CustomMenuBtn(
+                                library: "Profile\nSetup",
+                                settingimage: AppAssets.settings4)),
+                                
                         // GestureDetector(
                         //     onTap: () {
                         //       Get.to(AppStoreScreen());
@@ -88,12 +94,13 @@ class _MenuScreenState extends State<MenuScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GestureDetector(
-                            onTap: () {
-                              Get.to(const ProfileScreen());
-                            },
-                            child: CustomMenuBtn(
-                                library: "Profile\nSetup",
-                                settingimage: AppAssets.settings4)),
+                        onTap: () {
+                          Get.to(NewPrivacyScreen());
+                        },
+                        child: CustomMenuBtn(
+                            library: "Privacy\nPolicy",
+                            settingimage: AppAssets.proivacyPolicy)),
+                        
                         GestureDetector(
                             onTap: () {
                               Get.to(const SocialScreen());
@@ -113,13 +120,14 @@ class _MenuScreenState extends State<MenuScreen> {
                     SizedBox(
                       height: Get.height * 0.040,
                     ),
-                    // GestureDetector(
-                    //     onTap: () {
-                    //       Get.to(SettingScreen());
-                    //     },
-                    //     child: CustomSettings(
-                    //         library: "Settings",
-                    //         settingimage: AppAssets.settings7)),
+                    GestureDetector(
+                        onTap: () {
+                         showSignOut(context);
+                        },
+                        child: CustomMenuBtn(
+                            library: "Log Out",
+                            settingimage: AppAssets.settings3)),
+                    
                   ],
                 ),
               )
@@ -129,4 +137,63 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
     );
   }
+  void showSignOut(
+    BuildContext context,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(
+                color: AppColors.whitecolor, width: 1), // Border color
+          ),
+          title: Text(
+            "Do you want to sign out?",
+            style: TextStyle(fontSize: 20, color: AppColors.whitecolor),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        "cancel",
+                        style: TextStyle(
+                            color: AppColors.primaryColor, fontSize: 18),
+                      )),
+                  TextButton(
+                    onPressed: () async {
+                      await controller.GoogleSignOut();
+                      await controller.facebookSignOut();
+                      await controller.signOutApple();
+                      appStorage.erase();
+                      Get.offAll(LoginScreen());
+                    },
+                    child: Text(
+                      "Log out",
+                      style: TextStyle(
+                          color: AppColors.primaryColor, fontSize: 18),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
+
+
+
+
+

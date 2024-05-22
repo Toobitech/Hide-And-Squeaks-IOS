@@ -140,12 +140,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         borderRadius: BorderRadius.circular(32),
                         color: AppColors.containercolor),
                     child: Center(
-                      child: Text(
-                        controller.userDataList.value.petName.toString(),
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 35),
+                      child: Container(
+                        width: Get.width*0.8,
+                        child: controller.isLoading.value?Center(child: CircularProgressIndicator(color: AppColors.primaryColor,)): Center(
+                          child: Text(
+                            controller.userDataList.value.petName.toString(),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            maxLines: 1,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 35),
+                          ),
+                        ),
                       ),
                     ),
                   ),

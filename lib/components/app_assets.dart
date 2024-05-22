@@ -19,11 +19,12 @@ class AppAssets {
   static var slider = "assets/images/slider.png";
   static var settings1 = "assets/images/settings1a.png";
   static var settings2 = "assets/images/settings2a.png";
-  static var settings3 = "assets/images/settingnew.png";
-  static var settings4 = "assets/images/settings4a.png";
-  static var settings5 = "assets/images/settings5a.png";
+  static var settings3 = "assets/images/logout.png";
+  static var settings4 = "assets/images/profilenew.png";
+  static var settings5 = "assets/images/socialfeednew.png";
   static var settings6 = "assets/images/settings6a.png";
   static var settings7 = "assets/images/settingnew.png";
+  static var proivacyPolicy="assets/images/privacypolicynew.png";
   static var plublish = "assets/images/publish2.png";
   static var social = "assets/images/socialdog.png";
   static var gridimg = "assets/images/grid.png";
