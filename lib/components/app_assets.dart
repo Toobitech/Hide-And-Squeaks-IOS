@@ -1,6 +1,6 @@
 class AppAssets {
   static String backgroundimage1 = "assets/images/backgroundimage1.png";
-  static var signin = "assets/images/signin3.png";
+  static var signin = "assets/images/signinmain.png";
   static var links = "assets/images/links.png";
   static var play = "assets/images/play.png";
   static var backgroundmain = "assets/images/backgroundmain.png";
@@ -14,7 +14,7 @@ class AppAssets {
   static var google = "assets/images/google.png";
   static var dollarback = "assets/images/dollarback.JPG";
   static var textback = "assets/images/backgroundtext.jpg";
-  static var dog = "assets/images/dog2.png";
+  static var dog = "assets/images/dog5.png";
   static var watch = "assets/images/watch.png";
   static var slider = "assets/images/slider.png";
   static var settings1 = "assets/images/settings1a.png";
@@ -24,6 +24,7 @@ class AppAssets {
   static var settings5 = "assets/images/socialfeednew.png";
   static var settings6 = "assets/images/settings6a.png";
   static var settings7 = "assets/images/settingnew.png";
+  static var delProfile = "assets/images/Setting10.png";
   static var proivacyPolicy="assets/images/privacypolicynew.png";
   static var plublish = "assets/images/publish2.png";
   static var social = "assets/images/socialdog.png";

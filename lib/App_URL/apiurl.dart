@@ -30,4 +30,6 @@ class AppUrl {
   static String postRecording="${base}recorder/add";
   static String DeleteRecording="${base}recorder/delete";
   static String GetRecordings="${base}recorder";
+  static String reportUrl="${base}video-report";
+  static String deleteAccountUrl="${base}delete-account";
 }

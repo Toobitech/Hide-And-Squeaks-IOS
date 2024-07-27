@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:squeak/view/NewPrivacy.dart';
+import 'package:squeak/view/login_screen.dart';
+import 'package:squeak/view/social_screen.dart';
 import 'components/custom_snakbar.dart';
 import 'view/splashScreen.dart';
 

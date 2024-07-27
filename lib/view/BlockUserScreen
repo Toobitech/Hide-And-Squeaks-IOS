@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:squeak/components/customButton.dart';
+import 'package:squeak/components/customTextField.dart';
+import 'package:squeak/components/custom_auth.dart';
+import 'package:squeak/controller/auth_controller.dart';
+import 'package:squeak/components/app_assets.dart';
+import 'package:squeak/view/forgot_screen.dart';
+import 'package:squeak/view/register_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../components/colors.dart';
+
+class BlockUserScreen extends StatefulWidget {
+  const BlockUserScreen({super.key});
+  @override
+  State<BlockUserScreen> createState() => _BlockUserScreenState();
+}
+
+class _BlockUserScreenState extends State<BlockUserScreen> {
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Container(
+        height: Get.height * 1,
+        width: Get.width * 1,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(AppAssets.backgroundimage1),
+            fit: BoxFit.fill,
+            colorFilter: ColorFilter.mode(
+              AppColors.filtercolor,
+              BlendMode.srcOver,
+            ),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomContainer(),
+                SizedBox(height: Get.height * 0.2),
+                Text(
+                  "Admin Has Blocked You. Kindly visit",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    color: AppColors.whitecolor,
+                  ),
+                ),
+                SizedBox(height: Get.height * 0.05),
+                GestureDetector(
+                  onTap: () => _launchURL('https://hideandsqueaks.com/pages/contact-us'),
+                  child: Text(
+                    "https://hideandsqueaks.com/pages/contact-us",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

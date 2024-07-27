@@ -21,18 +21,25 @@
 	<key>STORAGE_BUCKET</key>
 	<string>hide-and-squeaks.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:195903977126:ios:428d3876f9b4e712712667</string>
 	<key>DATABASE_URL</key>
 	<string>https://hide-and-squeaks-default-rtdb.firebaseio.com</string>
+
+	<!-- Added purpose strings -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to allow you to upload photos of your pets for sharing with other users and enhancing your profile.</string>
+
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs access to your microphone to enable voice recording features, allowing you to create and share audio recordings of your pets with other users.</string>
 </dict>
 </plist>

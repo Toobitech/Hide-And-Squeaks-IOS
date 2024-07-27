@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: [
                   const CustomContainer(),
-                  SizedBox(height: Get.height * 0.075),
+                  SizedBox(height: Get.height * 0.05),
                   Text(
                     "Sign In",
                     style: TextStyle(
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 35,
                         color: AppColors.whitecolor),
                   ),
-                  SizedBox(height: Get.height * 0.09),
+                  SizedBox(height: Get.height * 0.075),
                   Form(
                     key: _formKey,
                     child: Column(

@@ -418,4 +418,57 @@ class VideoController extends GetxController {
       print('Error deleting data: $error');
     }
   }
+
+  Future<void> reportVideo(Map<String, dynamic> data) async {
+    showDialogue();
+    print("Data in reportVideo: $data"); // Ensure the data is printed here
+    String? currentToken = appStorage.read('userToken');
+
+    if (currentToken == null) {
+      print("Error: userToken is null");
+      showInSnackBar(
+        "Error: User is not authenticated",
+        color: AppColors.errorcolor,
+      );
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse(AppUrl.reportUrl),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $currentToken",
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode(data),
+      );
+
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      print("Response Data: $responseData");
+
+      if (responseData["success"] == true) {
+        print(responseData);
+        Get.back();
+        showInSnackBar(responseData["message"], color: AppColors.greencolor);
+      } else {
+        print("Error: ${responseData['message']}");
+        print(response.statusCode);
+        Get.back();
+        showInSnackBar(
+          "Problem while Reporting",
+          color: AppColors.errorcolor,
+        );
+      }
+    } catch (e) {
+      print(e.toString());
+      Get.back();
+      showInSnackBar(
+        "An error occurred while reporting",
+        color: AppColors.errorcolor,
+      );
+    }
+  }
+
+
 }

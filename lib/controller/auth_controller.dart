@@ -10,6 +10,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:squeak/App_URL/apiurl.dart';
 import 'package:squeak/Local%20Storage/global_variable.dart';
 import 'package:squeak/global/alertbox.dart';
+import 'package:squeak/view/BlockUserScreen';
 import 'package:squeak/view/OTP_screen.dart';
 import 'package:squeak/view/homescreen.dart';
 import 'package:squeak/view/password_screen.dart';
@@ -264,10 +265,9 @@ class AuthController extends GetxController {
   }
 
   signInUser(String email, String password) async {
-    
+    showDialogue();
     print(email);
     print(password);
-    showDialogue();
 
     try {
       final response = await http.post(
@@ -300,7 +300,15 @@ class AuthController extends GetxController {
 
           Get.offAll(const HomeScreen());
         }
-      } else {
+
+      } 
+      else if(responseData["success"]==false && responseData['message']== "Admin has blocked you."){
+        Get.to(BlockUserScreen());
+
+        
+
+      }
+      else {
         Get.back();
         showInSnackBar("${responseData["message"]}",
             color: AppColors.errorcolor);
@@ -319,7 +327,6 @@ class AuthController extends GetxController {
       showInSnackBar(error.toString(), color: AppColors.errorcolor);
     }
   }
-
 //SignUp/Registration
   registerUser(
       String firstName, String lastName, String email, String password) async {
@@ -504,7 +511,58 @@ class AuthController extends GetxController {
     for (var p in e.problems) {
       print('Problem: ${p.code}: ${p.msg}');
     }
+
+
+
+
   }
 }
+
+deleteAccount() async {
+    showDialogue();
+    print("Deleting Account"); // Ensure the data is printed here
+    String? currentToken = appStorage.read('userToken');
+
+   
+
+    try {
+      final response = await http.delete(
+        Uri.parse(AppUrl.deleteAccountUrl),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $currentToken",
+          "Content-Type": "application/json"
+        },
+       
+      );
+
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      print("Response Data: $responseData");
+
+      if (responseData["status"] == true) {
+        print("Account Deleted");
+        print(responseData);
+         showInSnackBar(responseData["message"], color: AppColors.greencolor);
+        Get.to(LoginScreen());
+       
+      } else {
+        print("Error: ${responseData['message']}");
+        print(response.statusCode);
+        Get.back();
+        showInSnackBar(
+          "Problem while deleting accout",
+          color: AppColors.errorcolor,
+        );
+      }
+    } catch (e) {
+      print(e.toString());
+      Get.back();
+      showInSnackBar(
+        "An error occurred while deleting",
+        color: AppColors.errorcolor,
+      );
+    }
+  }
+
 
 }

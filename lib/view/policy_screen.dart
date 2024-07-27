@@ -6,7 +6,8 @@ import 'package:squeak/controller/treat_Controller.dart';
 import 'package:squeak/view/NewPrivacy.dart';
 
 class TextScreen extends StatefulWidget {
-  const TextScreen({super.key});
+  final bool? privacy;
+  const TextScreen({super.key,this.privacy});
 
   @override
   State<TextScreen> createState() => _TextScreenState();
@@ -39,7 +40,7 @@ class _TextScreenState extends State<TextScreen> {
           child: Column(
             children: [
               const CustomAppBar(),
-              SizedBox(height: Get.height * 0.05),
+              SizedBox(height: Get.height * 0.01),
               
               
               Padding(
@@ -67,8 +68,8 @@ class _TextScreenState extends State<TextScreen> {
                                                       MyText(firstText: "5. App Updates:", lastText: " Regularly update the app to access the latest features and security improvements. This ensures optimal performance and safety."),
                                                       MyText(firstText: "6. Avoid Overuse:", lastText: " Limit the use of the interactive toy to prevent overstimulation and ensure your dog gets adequate rest."),
                                                       MyText(firstText: "7. Safe Environment:", lastText: " Use the toy in a safe, open area free from obstacles or hazards that your dog might bump into while playing."),
-                                                       MyText(firstText: "7. Supervised Charging:", lastText: " Only charge the toy when your dog is not using it to avoid any electrical hazards."),
-                                                       MyText(firstText: " ", lastText: " By following these guidelines, you can ensure a fun and safe experience for your dog with their interactive toy. Enjoy the playful moments while keeping your furry friend’s well-being a top priority!")
+                                                      MyText(firstText: "7. Supervised Charging:", lastText: " Only charge the toy when your dog is not using it to avoid any electrical hazards."),
+                                                      MyText(firstText: "", lastText: " By following these guidelines, you can ensure a fun and safe experience for your dog with their interactive toy. Enjoy the playful moments while keeping your furry friend’s well-being a top priority!")
                                             
                                   
                                 ],

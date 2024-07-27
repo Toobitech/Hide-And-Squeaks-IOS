@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'dart:convert';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,6 +29,7 @@ class VideoPlayerScreen extends StatefulWidget {
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   TextEditingController commentController = TextEditingController();
+   TextEditingController reportController = TextEditingController();
   VideoController controller = Get.put(VideoController());
 
   String formatDate(String dateStr) {
@@ -111,10 +114,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-        isLoading? Container(
-           height: Get.height * 0.5,
-                    width: Get.width * 1,
-          child: Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),))  :Container(
+        // isLoading? Container(
+        //    height: Get.height * 0.5,
+        //             width: Get.width * 1,
+        //   child: Center(child: CircularProgressIndicator(color: AppColors.primaryColor,),))  :
+          Container(
                     height: Get.height * 0.5,
                     width: Get.width * 1,
                     child: Chewie(
@@ -415,13 +419,46 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ),
                         ),
                         SizedBox(height: Get.height * 0.01),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Comments",
-                            style: TextStyle(
-                                fontSize: 15, color: AppColors.whitecolor),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Comments",
+                                style: TextStyle(
+                                    fontSize: 15, color: AppColors.whitecolor),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: (){
+                                ReportWindow(context);
+                              },
+                              child: Container(
+                                  height: Get.height * 0.037,
+                                  width: Get.width * 0.28,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.primaryColor,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                       Icon(Icons.flag_rounded,color: Colors.white,),
+                                       SizedBox(width: Get.width*0.02,),
+                                      Center(
+                                        child: Text(
+                                          "Report",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: AppColors.whitecolor,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: Get.height * 0.01),
                         Container(
@@ -538,6 +575,107 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       ),
     );
   }
+  
+  void ReportWindow(
+  BuildContext context,
+) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        backgroundColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(
+            color: AppColors.whitecolor,
+            width: 1,
+          ),
+        ),
+        child: Container(
+          height: Get.height * 0.5,
+          width: Get.width*0.8, // Set your desired height here
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Kindly Enter The Reporting reason",textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, color: AppColors.whitecolor),
+              ),
+                SizedBox(height:Get.height*0.02),
+            Expanded(
+                child: TextFormField(
+                  maxLines: null,
+                  controller: reportController,
+                  expands: true,
+                  style: TextStyle(color: AppColors.whitecolor),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[800],
+                    hintText: "Enter your reason here...",
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height:Get.height*0.02),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text(
+                      "cancel",
+                      style: TextStyle(
+                        color: AppColors.primaryColor,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                       if(reportController.text.isNotEmpty){
+                     
+                     Map<String, dynamic> data = {
+                            "video_id": widget.view.id,
+                            "issue": reportController.text,
+                          };
+                          print(data); 
+                          // Print the data map
+                          
+
+
+                        await controller.reportVideo(data);
+                        Get.back();
+
+                       }
+                       else{
+                        showInSnackBar("Kindly Enter the Reason of Reporting",color: AppColors.errorcolor);
+                       }
+                    },
+                    child: Text(
+                      "Submit",
+                      style: TextStyle(
+                        color: AppColors.primaryColor,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
 
   @override
   void dispose() {

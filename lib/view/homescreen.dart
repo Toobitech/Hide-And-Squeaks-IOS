@@ -57,34 +57,40 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-               SizedBox(height: Get.height * 0.0135),
+               SizedBox(height: Get.height * 0.02),
               CustomAppBar(show:true),
               SizedBox(height: Get.height * 0.008),
-              Container(
-                  height: Get.height * 0.34,
-                  width: Get.width * 0.85,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(AppAssets.dog), fit: BoxFit.fill))
-                  // child: Center(
-                  //   child: Padding(
-                  //     padding: EdgeInsets.only(top: 15.25, left: 1.7),
-                  //     child: Obx(
-                  //       () => CircleAvatar(
-                  //         radius: 116,
-                  //         backgroundImage:
-                  //             newcontroller.userDataList.value.profile != null
-                  //                 ? Image.network(AppUrl.imageUrl +
-                  //                         newcontroller
-                  //                             .userDataList.value.profile!)
-                  //                     .image
-                  //                 : null,
-                  //         backgroundColor: Colors.transparent,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
-                  ),
+              CircleAvatar(
+                radius: 175,
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage(AppAssets.dog),
+
+              ),
+              // Container(
+              //     height: Get.height * 0.33,
+              //     width: Get.width * 0.6,
+              //     decoration: BoxDecoration(
+              //         image: DecorationImage(
+              //             image: AssetImage(AppAssets.dog), fit: BoxFit.fill))
+              //     // child: Center(
+              //     //   child: Padding(
+              //     //     padding: EdgeInsets.only(top: 15.25, left: 1.7),
+              //     //     child: Obx(
+              //     //       () => CircleAvatar(
+              //     //         radius: 116,
+              //     //         backgroundImage:
+              //     //             newcontroller.userDataList.value.profile != null
+              //     //                 ? Image.network(AppUrl.imageUrl +
+              //     //                         newcontroller
+              //     //                             .userDataList.value.profile!)
+              //     //                     .image
+              //     //                 : null,
+              //     //         backgroundColor: Colors.transparent,
+              //     //       ),
+              //     //     ),
+              //     //   ),
+              //     // )
+              //     ),
               SizedBox(height: Get.height * 0.022),
               Text(
                 "Volume",

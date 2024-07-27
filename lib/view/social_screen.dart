@@ -137,7 +137,7 @@ class _SocialTabScreenState extends State<SocialTabScreen>
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.only(top: 8,left: 8,bottom: 0,right: 8),
                                         child: Column(
                                           children: [
                                             Row(
@@ -208,7 +208,7 @@ class _SocialTabScreenState extends State<SocialTabScreen>
                                               ],
                                             ),
                                             SizedBox(
-                                              height: Get.height * 0.1,
+                                              height: Get.height * 0.11,
                                             ),
                                             Row(
                                               mainAxisAlignment:
@@ -229,7 +229,7 @@ class _SocialTabScreenState extends State<SocialTabScreen>
                                                               .whitecolor,
                                                           fontWeight:
                                                               FontWeight.w300,
-                                                          fontSize: 20,
+                                                          fontSize: 23,
                                                           ),
                                                     ),
                                                   ),

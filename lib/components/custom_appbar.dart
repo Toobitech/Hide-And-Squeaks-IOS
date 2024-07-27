@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 25, right: 25, top: 48),
+      padding: EdgeInsets.only(left: 25, right: 25, top: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -30,7 +30,7 @@ class CustomAppBar extends StatelessWidget {
           ),
           show?Text("") :CircleAvatar(
             backgroundColor: Colors.transparent,
-            radius:55,
+            radius:80,
             backgroundImage:AssetImage(AppAssets.signin),
           
 

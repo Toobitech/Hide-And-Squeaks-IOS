@@ -193,8 +193,9 @@ class _UploadScreenState extends State<UploadScreen> {
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
+                                  SizedBox(width: Get.width*0.22,),
                                   Text(
                                     "Upload Video",
                                     style: TextStyle(
@@ -206,7 +207,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                     width: Get.width * 0.1,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 15),
+                                    padding: const EdgeInsets.only(right: 5),
                                     child: Icon(
                                       Icons.file_upload_outlined,
                                       size: 50,

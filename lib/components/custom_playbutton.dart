@@ -1,13 +1,11 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:squeak/view/FinalAudio.dart';
 import 'package:squeak/view/audio_play_screen.dart';
 import 'app_assets.dart';
 import 'colors.dart';
 import 'package:app_settings/app_settings.dart';
-
 
 // ignore: must_be_immutable
 class CustonPlayButton extends StatefulWidget {
@@ -17,68 +15,17 @@ class CustonPlayButton extends StatefulWidget {
   Icon playIcon;
 
   CustonPlayButton(
-      {super.key, required this.playTap,
+      {super.key,
+      required this.playTap,
       required this.previousTap,
       required this.playIcon,
       required this.nextTap});
-      
 
   @override
   State<CustonPlayButton> createState() => _CustonPlayButtonState();
 }
 
-
-
 class _CustonPlayButtonState extends State<CustonPlayButton> {
-  // bool _bluetoothSettingsOpened = false;
-  // Connectivity connectivity = Connectivity();
-  // AudioPlayer _audioPlayer = AudioPlayer();
-  // ConnectivityResult connectivityResult = ConnectivityResult.none;
-
-
-  
-
-
-//     Future<void> _checkBluetoothSettings() async {
-//   SystemChannels.lifecycle.setMessageHandler((message) async {
-//     if (message == AppLifecycleState.resumed.toString()) {
-//       // Check if Bluetooth settings were opened
-//       if (_bluetoothSettingsOpened) {
-//         print("get back from settings");
-//         // Check Bluetooth connectivity
-//         final connectivityResult =await (Connectivity().checkConnectivity());
-//         if (connectivityResult== ConnectivityResult.bluetooth) {
-//           print("connectivity");
-//           // If Bluetooth connection is detected, play sound
-//           _playSound();
-//         }
-//         // Show Snackbar
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(
-//             content: Text('Returned from Bluetooth settings'),
-//           ),
-//         );
-//         // Reset the flag
-//         _bluetoothSettingsOpened = false;
-//       }
-//     }
-//     return null;
-//   });
-// }
-
-//    _playSound() async {
-//   print("sound checking");
-//   // Play sound using AudioPlayer
-//   _audioPlayer.play(AssetSource("images/flutter.mp3"));
-// }
-//   @override
-//   void initState() {
-//     super.initState();
-    
-//     _checkBluetoothSettings();
-//   }
-
-
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
@@ -90,25 +37,80 @@ class _CustonPlayButtonState extends State<CustonPlayButton> {
           Padding(
             padding: const EdgeInsets.only(left: 3, top: 32),
             child: GestureDetector(
-                onTap: () async {
-                    //  bool result = await AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
+              onTap: () async {
+                // Check current Bluetooth permission status
+                PermissionStatus status = await Permission.bluetooth.status;
 
-                  // await AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
-                  AppSettings.openAppSettings(type: AppSettingsType.bluetooth);
-                  // Open Bluetooth settings using flutter_app_settings package
-         
-            // Set the flag to true indicating Bluetooth settings were opened
-            // _bluetoothSettingsOpened = true;
-            
-            // Show Snackbar if the user returns from Bluetooth settings
-            
-                 
-                },
-                child: Icon(
-                  Icons.bluetooth_rounded,
-                  size: 32,
-                  color: AppColors.buttoncolor,
-                )),
+                if (status.isGranted) {
+                  // Inform the user that Bluetooth permission is already granted
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Bluetooth permission is already granted.')),
+                  );
+                } else if (status.isDenied || status.isRestricted || status.isLimited || status.isPermanentlyDenied) {
+                  // Request Bluetooth permission
+                  PermissionStatus result = await Permission.bluetooth.request();
+
+                  if (result.isGranted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Bluetooth permission granted.')),
+                    );
+                  } else if (result.isDenied || result.isPermanentlyDenied) {
+                    // Open app settings
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.black,
+                           shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(
+                color: AppColors.whitecolor, width: 1), // Border color
+          ),
+                          title: Text(
+                            'Bluetooth Permission Required',
+                            style: TextStyle(color: AppColors.whitecolor),
+                          ),
+                          content: Text(
+                            'This app needs Bluetooth access to function properly. Please grant Bluetooth permission in the app settings.',
+                            style: TextStyle(color: AppColors.whitecolor),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Continue',style: TextStyle(color: AppColors.whitecolor),),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                AppSettings.openAppSettings();
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Cancel',style: TextStyle(color: AppColors.whitecolor),),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    // Handle other permission states (optional)
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Bluetooth permission is required to proceed.')),
+                    );
+                  }
+                } else {
+                  // Handle other permission states (optional)
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Unexpected permission status: $status')),
+                  );
+                }
+              },
+              child: Icon(
+                Icons.bluetooth_rounded,
+                size: 32,
+                color: AppColors.buttoncolor,
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 55),
@@ -126,12 +128,7 @@ class _CustonPlayButtonState extends State<CustonPlayButton> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 63, top: 2.5),
-                  child: GestureDetector(onTap: widget.playTap, child: widget.playIcon
-                      // Icon(
-                      //     indexPlaying ? Icons.pause : Icons.play_arrow_rounded,
-                      //     size: 42,
-                      //     color: AppColors.buttoncolor)
-                      ),
+                  child: GestureDetector(onTap: widget.playTap, child: widget.playIcon),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 58),
@@ -147,9 +144,7 @@ class _CustonPlayButtonState extends State<CustonPlayButton> {
             padding: const EdgeInsets.only(top: 61, left: 1),
             child: GestureDetector(
                 onTap: () {
-                  // Get.to(const AudioPlayScreen());
-                   Get.to(const AudioUi());
-                  
+                  Get.to(const AudioUi());
                 },
                 child: Icon(
                   Icons.format_list_bulleted,

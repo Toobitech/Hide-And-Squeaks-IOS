@@ -120,13 +120,24 @@ class _MenuScreenState extends State<MenuScreen> {
                     SizedBox(
                       height: Get.height * 0.040,
                     ),
-                    GestureDetector(
-                        onTap: () {
-                         showSignOut(context);
-                        },
-                        child: CustomMenuBtn(
-                            library: "Log Out",
-                            settingimage: AppAssets.settings3)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children:[ 
+                        GestureDetector(
+                          onTap: () {
+                           showSignOut(context);
+                          },
+                          child: CustomMenuBtn(
+                              library: "Log Out",
+                              settingimage: AppAssets.settings3)),
+                        GestureDetector(
+                          onTap: () {
+                           deleteAccount(context);
+                          },
+                          child: CustomMenuBtn(
+                              library: "Delete Account",
+                              settingimage: AppAssets.delProfile)),]
+                    ),
                     
                   ],
                 ),
@@ -179,6 +190,61 @@ class _MenuScreenState extends State<MenuScreen> {
                     },
                     child: Text(
                       "Log out",
+                      style: TextStyle(
+                          color: AppColors.primaryColor, fontSize: 18),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void deleteAccount(
+    BuildContext context,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(
+                color: AppColors.whitecolor, width: 1), // Border color
+          ),
+          title: Text(
+            "Do you want to Delete Your Account Permanently? ",textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, color: AppColors.whitecolor),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        "cancel",
+                        style: TextStyle(
+                            color: AppColors.primaryColor, fontSize: 18),
+                      )),
+                  TextButton(
+                    onPressed: () async {
+                      await controller.deleteAccount();
+                      await controller.GoogleSignOut();
+                      await controller.facebookSignOut();
+                      await controller.signOutApple();
+                      appStorage.erase();
+                      Get.offAll(LoginScreen());
+                    },
+                    child: Text(
+                      "Yes",
                       style: TextStyle(
                           color: AppColors.primaryColor, fontSize: 18),
                     ),
