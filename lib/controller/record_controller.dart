@@ -5,6 +5,8 @@ import 'package:squeak/Local%20Storage/global_variable.dart';
 import 'package:squeak/components/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:squeak/models/record_model.dart';
+import 'package:squeak/view/FinalAudio.dart';
+import 'package:squeak/view/menu_screen.dart';
 import '../components/custom_snakbar.dart';
 
 class recordController extends GetxController {
@@ -37,6 +39,8 @@ class recordController extends GetxController {
       if (response.statusCode == 200) {
         //  Get.back();
         print("Recorded Audio Sent");
+        Get.to(MenuScreen());
+        
         showInSnackBar("${responseData["message"]}",
             color: AppColors.greencolor);
         isLoading.value = false;

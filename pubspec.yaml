@@ -72,6 +72,7 @@ dependencies:
   crypto: ^3.0.3
   video_compressor: ^0.0.5
   another_audio_recorder: ^1.1.0
+  audio_session: ^0.1.21
 
  
   
